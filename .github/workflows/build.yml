@@ -1,12 +1,41 @@
-name: Debug Folders
+name: Build Android APK
 
 on:
   workflow_dispatch:
 
 jobs:
-  debug:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: List files à la racine
-        run: ls -la
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./Find_my_cni_expo  # <-- e minuscule
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Login check
+        run: eas whoami
+        working-directory: ./Find_my_cni_expo
+
+      - name: Build Android APK
+        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output ../app-release.apk
+        working-directory: ./Find_my_cni_expo
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: find-my-cni-apk
+          path: app-release.apk
