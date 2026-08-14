@@ -8,6 +8,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip find_my_cni_expo.zip
+      
+      # ← ON CRÉE EAS.JSON ICI AUTOMATIQUEMENT
+      - run: |
+          cd $(ls -d */ | head -1)
+          cat > eas.json << EOF
+          {
+            "cli": {
+              "appVersionSource": "remote"
+            },
+            "build": {
+              "production": {
+                "android": {
+                  "buildType": "apk"
+                }
+              }
+            }
+          }
+          EOF
+
       - uses: actions/setup-node@v4
         with: 
           node-version: 18
@@ -16,5 +35,7 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
           packager: npm
+          
       - run: cd $(ls -d */ | head -1) && npm install
+      - run: cd $(ls -d */ | head -1) && eas whoami
       - run: cd $(ls -d */ | head -1) && eas build -p android --profile production --non-interactive
