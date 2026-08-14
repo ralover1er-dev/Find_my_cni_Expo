@@ -6,9 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Find_my_cni_Expo  # <-- AJOUTE ÇA
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -28,9 +25,11 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Login check
+        run: eas whoami
+
       - name: Build Android APK
-        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output ../app-release.apk
-        working-directory: ./Find_my_cni_Expo  # <-- AJOUTE ÇA AUSSI
+        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output app-release.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
