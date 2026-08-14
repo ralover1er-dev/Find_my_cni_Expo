@@ -6,6 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Find_my_cni_Expo  # <-- AJOUTE ÇA
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -14,10 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          # cache enlevé volontairement
 
       - name: Install dependencies
-        run: npm install  # npm install au lieu de npm ci
+        run: npm install
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -27,7 +29,8 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Android APK
-        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output app-release.apk
+        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output ../app-release.apk
+        working-directory: ./Find_my_cni_Expo  # <-- AJOUTE ÇA AUSSI
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
