@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip find_my_cni_expo.zip -d app-source && mv app-source/* . && rm -rf app-source find_my_cni_expo.zip
+      - run: unzip find_my_cni_expo.zip
+      - run: cd Find_my_cni_Expo && npm install
       - uses: actions/setup-node@v4
         with: 
           node-version: 18
@@ -16,5 +17,5 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
           packager: npm
-      - run: npm install
-      - run: eas build -p android --profile production --non-interactive --auto-submit=false
+          working-directory: Find_my_cni_Expo   # ← ON TRAVAILLE DANS LE DOSSIER
+      - run: cd Find_my_cni_Expo && eas build -p android --profile production --non-interactive --auto-submit=false
