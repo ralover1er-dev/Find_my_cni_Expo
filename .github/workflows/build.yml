@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: unzip find_my_cni_expo.zip
       
-      # ← ON SUPPRIME L'ANCIEN EAS.JSON ET ON CRÉE LE NOUVEAU
+      # ← ON SUPPRIME L'ANCIEN EAS.JSON + ON AJOUTE OWNER
       - run: |
           cd $(ls -d */ | head -1)
           rm -f eas.json
@@ -27,8 +27,8 @@ jobs:
             }
           }
           EOF
-          # ← ON INJECTE LE PROJECT ID DANS APP.JSON
-          node -e "const fs=require('fs'); let app=JSON.parse(fs.readFileSync('app.json')); app.expo=app.expo||{}; app.expo.extra=app.expo.extra||{}; app.expo.extra.eas={projectId:'337fe799-ca92-43f1-9976-23c73973a294'}; fs.writeFileSync('app.json', JSON.stringify(app,null,2))"
+          # ← ON AJOUTE OWNER + PROJECT ID DANS APP.JSON
+          node -e "const fs=require('fs'); let app=JSON.parse(fs.readFileSync('app.json')); app.expo=app.expo||{}; app.expo.owner='lover1ers-team'; app.expo.extra=app.expo.extra||{}; app.expo.extra.eas={projectId:'337fe799-ca92-43f1-9976-23c73973a294'}; fs.writeFileSync('app.json', JSON.stringify(app,null,2))"
 
       - uses: actions/setup-node@v4
         with: 
