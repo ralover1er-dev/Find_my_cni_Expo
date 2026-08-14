@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: unzip find_my_cni_expo.zip
       
-      # ← ON CRÉE EAS.JSON + ON INJECTE LE PROJECT ID
+      # ← ON CRÉE EAS.JSON AVEC LE VRAI PROJECT ID
       - run: |
           cd $(ls -d */ | head -1)
           cat > eas.json << EOF
@@ -23,11 +23,10 @@ jobs:
                   "buildType": "apk"
                 }
               }
-            }
+            },
+            "projectId": "337fe799-ca92-43f1-9976-23c73973a294"
           }
           EOF
-          # ON AJOUTE LE PROJECT ID DANS APP.JSON
-          node -e "const fs=require('fs'); let app=JSON.parse(fs.readFileSync('app.json')); app.expo={...app.expo, extra:{eas:{projectId:'lover1ers-team/find-my-cni'}}}; fs.writeFileSync('app.json', JSON.stringify(app,null,2))"
 
       - uses: actions/setup-node@v4
         with: 
