@@ -1,9 +1,3 @@
-name: Debug Exact Name
-on: workflow_dispatch:
-jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: ls -la
-      - run: ls -la ./Find_my_cni_*
+git mv "Find_my_cni_expo" "app"
+git commit -m "fix: rename to app"
+git push
