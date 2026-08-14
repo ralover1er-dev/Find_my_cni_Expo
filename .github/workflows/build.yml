@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: 'npm'  # changé yarn -> npm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci  # changé yarn -> npm ci
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -25,9 +25,6 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Login to EAS with account scope
-        run: eas whoami
 
       - name: Build Android APK
         run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output app-release.apk
