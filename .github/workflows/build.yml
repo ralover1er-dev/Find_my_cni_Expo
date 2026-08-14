@@ -17,6 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./Find_my_cni_Expo  # <-- UN SEUL DOSSIER
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -27,9 +28,11 @@ jobs:
 
       - name: Login check
         run: eas whoami
+        working-directory: ./Find_my_cni_Expo
 
       - name: Build Android APK
-        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output app-release.apk
+        run: eas build -p android --profile production --non-interactive --account lover1ers-teams --output ../app-release.apk
+        working-directory: ./Find_my_cni_Expo
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
